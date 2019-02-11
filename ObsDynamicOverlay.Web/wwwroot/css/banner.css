@@ -1,0 +1,61 @@
+body.preview {
+    background-color: black;
+    background-image: url("/images/preview-background.jpg");
+    background-attachment: fixed;
+}
+
+body.preview .titlecard {
+    position: absolute;
+    left: 50px;
+    bottom: 50px;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+
+    padding: 0;
+    margin: 0;
+}
+
+.titlecard {
+    width: auto;
+    display: inline-grid;
+    
+    grid-template: 
+        "image upper" 80px
+        "image lower" 48px / 128px auto;
+}
+
+.image {
+    grid-area: image;
+
+    border-radius: 5px 0 0 5px;
+}
+
+.upper {
+    grid-area: upper;
+    line-height: 78px;
+    vertical-align: middle;
+    font-size: 76px;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    background: white;
+    opacity: 0.85;
+
+    border-radius: 0 5px 0 0;
+}
+
+.lower {
+    grid-area: lower;
+    line-height: 46px;
+    font-size: 44px;
+    vertical-align: middle;
+    padding-left: 4px;
+    padding-right: 4px;
+
+    background: white;
+    opacity: 0.75;
+
+    border-radius: 0 0 5px 0;
+}
