@@ -342,3 +342,8 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# User defined ignores
+**/Scripts/**/*.js
+**/Scripts/**/*.map
+**/wwwroot/js
