@@ -1,17 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ObsDynamicOverlay.Web.Hubs;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Logging.Debug;
+using ObsDynamicOverlay.DAL.DbContexts;
+using ObsDynamicOverlay.Web.Business;
 
-namespace Test
+namespace ObsDynamicOverlay.Web
 {
     public class Startup
     {
@@ -32,18 +34,36 @@ namespace Test
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
-            services.AddMvc()
+            services
+                .AddDbContext<BannerDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BannerDatabase")))
+                .AddHsts(options =>
+                {
+                    options.Preload = true;
+                    options.IncludeSubDomains = true;
+                    options.MaxAge = TimeSpan.FromDays(180);
+                })
+                .AddSession(options =>
+                {
+                    options.Cookie.IsEssential = true;
+                })
+                .AddLogging(builder =>
+                {
+                    builder.AddConsole()
+                        .AddDebug()
+                        .AddFilter<ConsoleLoggerProvider>(category: null, level: LogLevel.Debug)
+                        .AddFilter<DebugLoggerProvider>(category: null, level: LogLevel.Debug);
+                })
+                .AddMvc()
                 .AddNewtonsoftJson();
-            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseFileServer();
             }
             else
             {
@@ -57,18 +77,16 @@ namespace Test
 
             app.UseRouting(routes =>
             {
-                routes.MapApplication();
                 routes.MapControllerRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
             app.UseCookiePolicy();
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<ChatHub>("/chatHub");
-            });
             app.UseAuthorization();
+            app.UseWebSockets();
+
+            app.Use(async (context, next) => await StaticWebSocketHandler.Handle(context, next, CancellationToken.None));
         }
     }
 }
