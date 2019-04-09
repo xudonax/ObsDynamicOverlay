@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace ObsDynamicOverlay.Web.Business
 {
+    // Look at https://radu-matei.com/blog/aspnet-core-websockets-middleware/
     public static class StaticWebSocketHandler
     {
         private const string WebsocketUrl = "/ws";
