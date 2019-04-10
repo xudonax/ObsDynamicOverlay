@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "module": "amd",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noImplicitAny": false,
@@ -7,8 +8,10 @@
     "sourceMap": true,
     "removeComments": false,
     "lib": [ "dom" ],
-    "target": "es2018",
+    "target": "es5",
+    "allowJs": true,
     "outDir": "wwwroot/js"
+    //"outFile": "wwwroot/js/bundle.js"
   },
   "exclude": [
     "node_modules",

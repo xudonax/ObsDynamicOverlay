@@ -53,7 +53,7 @@ namespace ObsDynamicOverlay.Web
                         .AddFilter<ConsoleLoggerProvider>(category: null, level: LogLevel.Debug)
                         .AddFilter<DebugLoggerProvider>(category: null, level: LogLevel.Debug);
                 })
-                .AddSignalRCore();
+                .AddSignalR();
 
             services
                 .AddMvc()
@@ -87,7 +87,7 @@ namespace ObsDynamicOverlay.Web
                 })
                 .UseSignalR(options =>
                 {
-                    options.MapHub<ChatHub>("/hub");
+                    options.MapHub<TitleCardHub>("/hub");
                 });
 
         }
