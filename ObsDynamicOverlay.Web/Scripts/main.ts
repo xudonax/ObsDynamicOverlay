@@ -1,5 +1,4 @@
-﻿function sayHello() {
-    const compiler = (document.getElementById("compiler") as HTMLInputElement).value;
-    const framework = (document.getElementById("framework") as HTMLInputElement).value;
-    return `Hello from ${compiler} and ${framework}!`;
-}
+﻿import * as $ from 'jquery';
+import * as signalR from "@aspnet/signalr";
+
+let connBuilder = new signalR.HubConnectionBuilder();

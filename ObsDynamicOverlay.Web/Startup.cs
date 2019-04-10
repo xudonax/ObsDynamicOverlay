@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Logging.Debug;
 using ObsDynamicOverlay.DAL.DbContexts;
-using ObsDynamicOverlay.Web.Business;
+using ObsDynamicOverlay.Web.Business.Hubs;
 
 namespace ObsDynamicOverlay.Web
 {
@@ -53,6 +53,9 @@ namespace ObsDynamicOverlay.Web
                         .AddFilter<ConsoleLoggerProvider>(category: null, level: LogLevel.Debug)
                         .AddFilter<DebugLoggerProvider>(category: null, level: LogLevel.Debug);
                 })
+                .AddSignalRCore();
+
+            services
                 .AddMvc()
                 .AddNewtonsoftJson();
         }
@@ -63,7 +66,6 @@ namespace ObsDynamicOverlay.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseFileServer();
             }
             else
             {
@@ -72,21 +74,22 @@ namespace ObsDynamicOverlay.Web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseHttpsRedirection()
+                .UseStaticFiles()
+                .UseDefaultFiles()
+                .UseCookiePolicy()
+                .UseAuthorization()
+                .UseRouting(routes =>
+                {
+                    routes.MapControllerRoute(
+                        name: "default",
+                        template: "{controller=Home}/{action=Index}/{id?}");
+                })
+                .UseSignalR(options =>
+                {
+                    options.MapHub<ChatHub>("/hub");
+                });
 
-            app.UseRouting(routes =>
-            {
-                routes.MapControllerRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            app.UseCookiePolicy();
-            app.UseAuthorization();
-            app.UseWebSockets();
-
-            app.Use(async (context, next) => await StaticWebSocketHandler.Handle(context, next, CancellationToken.None));
         }
     }
 }

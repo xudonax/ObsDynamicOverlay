@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "name": "@xudonax/obsdynamicoverlay",
+  "devDependencies": {
+    "@types/jquery": "^3.3.29",
+    "@types/node": "^11.13.2"
+  },
+  "dependencies": {
+    "@aspnet/signalr": "^1.1.4",
+    "jquery": "^3.3.1"
+  }
+}

@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "module": "none",
-    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
     "noEmitOnError": true,
     "sourceMap": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "target": "es6",
+    "removeComments": false,
+    "lib": [ "dom" ],
+    "target": "es2018",
     "outDir": "wwwroot/js"
   },
   "exclude": [
