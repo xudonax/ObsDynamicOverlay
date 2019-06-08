@@ -20,10 +20,19 @@ body {
 .titlecard {
     width: auto;
     display: inline-grid;
+    visibility: hidden;
+    opacity: 0;
     
     grid-template: 
         "image upper" 80px
         "image lower" 48px / 128px auto;
+
+    transition: visibility 500ms, opacity 500ms;
+}
+
+.titlecard.visible {
+    visibility: visible;
+    opacity: 1;
 }
 
 .image {

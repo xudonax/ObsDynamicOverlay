@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "module": "amd",
+    "module": "es6",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "noImplicitAny": false,
     "noEmitOnError": true,
     "sourceMap": true,
-    "removeComments": false,
+    "removeComments": true,
+    "jsx": "react",
     "lib": [ "dom" ],
-    "target": "es5",
+    "target": "es6",
     "allowJs": true,
-    "outDir": "wwwroot/js"
-    //"outFile": "wwwroot/js/bundle.js"
+    "outDir": "dist"
   },
   "exclude": [
+    "dist",
     "node_modules",
     "wwwroot"
   ],
-  "compileOnSave": true
+  "compileOnSave": false
 }

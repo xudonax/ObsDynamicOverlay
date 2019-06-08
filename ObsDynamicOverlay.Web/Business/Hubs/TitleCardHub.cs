@@ -13,7 +13,7 @@ namespace ObsDynamicOverlay.Web.Business.Hubs
         public override async Task OnConnectedAsync()
         {
             await base.OnConnectedAsync();
-            await ShowTitleCard(new TitleCardModel {Title = "Nieuw!"}, CancellationToken.None);
+            await ShowTitleCard(new TitleCardModel {Title = "Nieuw!", SubTitle = "Dit is nieuw 😃", ImageUrl = "" }, CancellationToken.None);
         }
 
         public async Task ShowTitleCard(TitleCardModel titleCard, CancellationToken token)
