@@ -1,4 +1,4 @@
-﻿namespace ObsDynamicOverlay.Web.Models
+﻿namespace ObsDynamicOverlay.Hubs.Models
 {
     public class TitleCardModel
     {

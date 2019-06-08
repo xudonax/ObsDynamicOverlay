@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using ObsDynamicOverlay.Web.Models;
+using ObsDynamicOverlay.Hubs.Models;
 
-namespace ObsDynamicOverlay.Web.Business.Hubs
+namespace ObsDynamicOverlay.Web.Hubs
 {
     public class TitleCardHub : Hub
     {
