@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Logging.Debug;
 using ObsDynamicOverlay.DAL.DbContexts;
-using ObsDynamicOverlay.Web.Business.Hubs;
+using ObsDynamicOverlay.Web.Hubs;
 
 namespace ObsDynamicOverlay.Web
 {
