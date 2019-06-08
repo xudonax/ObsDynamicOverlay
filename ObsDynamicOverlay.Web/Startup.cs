@@ -77,13 +77,13 @@ namespace ObsDynamicOverlay.Web
             app.UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseDefaultFiles()
-                .UseCookiePolicy()
                 .UseAuthorization()
-                .UseRouting(routes =>
+                .UseRouting()
+                .UseEndpoints(routes =>
                 {
                     routes.MapControllerRoute(
                         name: "default",
-                        template: "{controller=Home}/{action=Index}/{id?}");
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
                 })
                 .UseSignalR(options =>
                 {
