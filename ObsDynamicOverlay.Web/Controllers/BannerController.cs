@@ -12,6 +12,7 @@ namespace ObsDynamicOverlay.Web.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Preview()
         {
             return View();

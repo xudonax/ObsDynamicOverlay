@@ -97,20 +97,14 @@ namespace ObsDynamicOverlay.Web
             app.UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseDefaultFiles()
-                .UseAuthorization()
                 .UseRouting()
-                .UseEndpoints(routes =>
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
                 {
-                    routes.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                })
-                .UseSignalR(options =>
-                {
-                    options.MapHub<TitleCardHub>("/hub");
+                    endpoints.MapHub<TitleCardHub>("/hub");
+                    endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
                 })
                 .UseHangfireDashboard();
-
         }
     }
 }
