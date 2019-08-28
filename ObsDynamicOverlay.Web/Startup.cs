@@ -32,7 +32,7 @@ namespace ObsDynamicOverlay.Web
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = _ => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -46,10 +46,7 @@ namespace ObsDynamicOverlay.Web
                     options.IncludeSubDomains = true;
                     options.MaxAge = TimeSpan.FromDays(180);
                 })
-                .AddSession(options =>
-                {
-                    options.Cookie.IsEssential = true;
-                })
+                .AddSession(options => options.Cookie.IsEssential = true)
                 .AddLogging(builder =>
                 {
                     builder.AddConsole()
@@ -101,8 +98,10 @@ namespace ObsDynamicOverlay.Web
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
-                    endpoints.MapHub<TitleCardHub>("/hub");
-                    endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+                    routes.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                    routes.MapHub<TitleCardHub>("/hub");
                 })
                 .UseHangfireDashboard();
         }
