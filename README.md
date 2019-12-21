@@ -1,6 +1,6 @@
 # OBS Dynamic Overlay
 
-This project is born from a desire to add dynamic overlays to OBS. This is done using an OBS Browser plugin and a .NET Core 3.0 app that can be run in a Docker container if wanted.
+This project is born from a desire to add dynamic overlays to OBS. This is done using an OBS Browser plugin and a .NET Core 3.1 app that can be run in a Docker container if wanted.
 
 ## OBS Browser plugins
 

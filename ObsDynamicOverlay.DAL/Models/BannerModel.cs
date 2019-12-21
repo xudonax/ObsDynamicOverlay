@@ -1,11 +1,10 @@
-﻿using ObsDynamicOverlay.DAL.Interfaces;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ObsDynamicOverlay.DAL.Models
 {
-    public class BannerModel : IDbObject
+    public class BannerModel
     {
         /// <summary>
         /// GUID for this entity

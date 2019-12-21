@@ -1,6 +1,4 @@
 ﻿using System;
-using Hangfire;
-using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -59,22 +57,6 @@ namespace ObsDynamicOverlay.Web
             services
                 .AddMvc()
                 .AddNewtonsoftJson();
-
-            services
-                .AddHangfire(configuration => configuration
-                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                    .UseSimpleAssemblyNameTypeSerializer()
-                    .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(Configuration.GetConnectionString("HangfireDatabase"), new SqlServerStorageOptions
-                    {
-                        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                        QueuePollInterval = TimeSpan.Zero,
-                        UseRecommendedIsolationLevel = true,
-                        UsePageLocksOnDequeue = true,
-                        DisableGlobalLocks = true
-                    }))
-                .AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,12 +80,11 @@ namespace ObsDynamicOverlay.Web
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
-                    routes.MapControllerRoute(
+                    endpoints.MapControllerRoute(
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}");
-                    routes.MapHub<TitleCardHub>("/hub");
-                })
-                .UseHangfireDashboard();
+                    endpoints.MapHub<TitleCardHub>("/hub");
+                });
         }
     }
 }
