@@ -77,6 +77,7 @@ namespace ObsDynamicOverlay.Web
                 .UseStaticFiles()
                 .UseDefaultFiles()
                 .UseRouting()
+                .UseAuthentication()
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {

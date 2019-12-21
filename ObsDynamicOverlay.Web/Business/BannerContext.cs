@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ObsDynamicOverlay.Web.Models.Dal;
+using ObsDynamicOverlay.DAL.Models;
 
 namespace ObsDynamicOverlay.Web.Business
 {
