@@ -1,6 +1,4 @@
 ﻿using System;
-using Hangfire;
-using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +30,7 @@ namespace ObsDynamicOverlay.Web
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = _ => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -46,10 +44,7 @@ namespace ObsDynamicOverlay.Web
                     options.IncludeSubDomains = true;
                     options.MaxAge = TimeSpan.FromDays(180);
                 })
-                .AddSession(options =>
-                {
-                    options.Cookie.IsEssential = true;
-                })
+                .AddSession(options => options.Cookie.IsEssential = true)
                 .AddLogging(builder =>
                 {
                     builder.AddConsole()
@@ -62,22 +57,6 @@ namespace ObsDynamicOverlay.Web
             services
                 .AddMvc()
                 .AddNewtonsoftJson();
-
-            services
-                .AddHangfire(configuration => configuration
-                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                    .UseSimpleAssemblyNameTypeSerializer()
-                    .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(Configuration.GetConnectionString("HangfireDatabase"), new SqlServerStorageOptions
-                    {
-                        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                        QueuePollInterval = TimeSpan.Zero,
-                        UseRecommendedIsolationLevel = true,
-                        UsePageLocksOnDequeue = true,
-                        DisableGlobalLocks = true
-                    }))
-                .AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,10 +80,11 @@ namespace ObsDynamicOverlay.Web
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapHub<TitleCardHub>("/hub");
-                    endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-                })
-                .UseHangfireDashboard();
+                });
         }
     }
 }
