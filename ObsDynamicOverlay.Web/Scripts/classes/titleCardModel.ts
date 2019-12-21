@@ -2,4 +2,5 @@
     title: string;
     subTitle: string;
     imageUrl: string;
+    showForSeconds: number;
 }

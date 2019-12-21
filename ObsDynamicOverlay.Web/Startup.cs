@@ -4,6 +4,7 @@ using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Logging.Debug;
-using ObsDynamicOverlay.DAL.DbContexts;
+using ObsDynamicOverlay.Web.Business;
 using ObsDynamicOverlay.Web.Hubs;
 
 namespace ObsDynamicOverlay.Web
@@ -35,8 +36,10 @@ namespace ObsDynamicOverlay.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddDbContext<BannerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BannerDatabase")));
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddEntityFrameworkStores<BannerContext>();
             services
-                .AddDbContext<BannerDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BannerDatabase")))
                 .AddHsts(options =>
                 {
                     options.Preload = true;
@@ -65,7 +68,8 @@ namespace ObsDynamicOverlay.Web
                     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                     .UseSimpleAssemblyNameTypeSerializer()
                     .UseRecommendedSerializerSettings()
-                    .UseSqlServerStorage(Configuration.GetConnectionString("ObsDynamicOverlay"), new SqlServerStorageOptions {
+                    .UseSqlServerStorage(Configuration.GetConnectionString("HangfireDatabase"), new SqlServerStorageOptions
+                    {
                         CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
                         SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
                         QueuePollInterval = TimeSpan.Zero,
@@ -93,20 +97,14 @@ namespace ObsDynamicOverlay.Web
             app.UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseDefaultFiles()
-                .UseAuthorization()
                 .UseRouting()
-                .UseEndpoints(routes =>
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
                 {
-                    routes.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}");
-                })
-                .UseSignalR(options =>
-                {
-                    options.MapHub<TitleCardHub>("/hub");
+                    endpoints.MapHub<TitleCardHub>("/hub");
+                    endpoints.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
                 })
                 .UseHangfireDashboard();
-
         }
     }
 }

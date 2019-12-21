@@ -14,6 +14,17 @@ export const startApp = () => {
         //document.getElementById("logo").src = titleCard.imageUrl;
         console.log("Got showTitleCard message, model:", titleCard);
 
+        showTitleCard(titleCard);
+
+        console.log("All done!");
+    });
+
+    connection.on("hideTitleCard", () => {
+        console.log("Got hideTitleCard message, hiding...");
+        hideTitleCard();
+    });
+
+    function showTitleCard(titleCard: titleCard.Model) {
         let logo = document.getElementById("logo") as HTMLImageElement;
         if (logo !== undefined) {
             logo.src = titleCard.imageUrl;
@@ -23,11 +34,11 @@ export const startApp = () => {
         document.getElementById("subtitle").innerText = titleCard.subTitle;
         document.getElementById("titleCard").classList.add("visible");
 
-        console.log("All done!");
-    });
+        window.setTimeout(hideTitleCard, titleCard.showForSeconds * 1000);
+    }
 
-    connection.on("hideTitleCard", () => {
-        console.log("Got hideTitleCard message, hiding...");
+    function hideTitleCard() {
         document.getElementById("titleCard").classList.remove("visible");
-    });
+        console.log("Hid the titleCard");
+    }
 }
