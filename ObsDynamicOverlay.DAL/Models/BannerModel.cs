@@ -7,10 +7,12 @@ namespace ObsDynamicOverlay.DAL.Models
     public class BannerModel
     {
         /// <summary>
-        /// GUID for this entity
+        /// ID for this entity
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
-        public Guid Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         /// <summary>
         /// Title for this entity
@@ -37,7 +39,6 @@ namespace ObsDynamicOverlay.DAL.Models
         /// <summary>
         /// Image to be shown for this entity, maximum size is <see cref="Constants.MegaByte" />
         /// </summary>
-        [Required]
         [MaxLength(Constants.MegaByte)]
         public byte[] Image { get; set; }
     }
