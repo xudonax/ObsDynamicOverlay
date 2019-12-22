@@ -37,7 +37,8 @@ body {
 
 .image {
     grid-area: image;
-
+    width: 128px;
+    height: 128px;
     border-radius: 5px 0 0 5px;
 }
 

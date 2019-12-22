@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ObsDynamicOverlay.DAL.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -41,5 +42,10 @@ namespace ObsDynamicOverlay.DAL.Models
         /// </summary>
         [MaxLength(Constants.MegaByte)]
         public byte[] Image { get; set; }
+
+        /// <summary>
+        /// Filetype to be sent out to the browser for the image
+        /// </summary>
+        public FileTypes FileType { get; set; }
     }
 }

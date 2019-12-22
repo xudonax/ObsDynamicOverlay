@@ -31,6 +31,9 @@ namespace ObsDynamicOverlay.Web.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getutcdate()");
 
+                    b.Property<int>("FileType")
+                        .HasColumnType("int");
+
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)")
                         .HasMaxLength(1048576);
