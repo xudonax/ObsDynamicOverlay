@@ -19,7 +19,7 @@ namespace ObsDynamicOverlay.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class BannerModelsController : Controller
     {
-        private const int ShowForSeconds = 30;
+        private const int ShowForSeconds = 15;
 
         private readonly BannerContext _context;
         private readonly IHubContext<TitleCardHub> _hub;

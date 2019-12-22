@@ -1,28 +1,34 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-    <ul class="navbar-nav">
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" asp-area="Admin" asp-controller="BannerModels" asp-action="Index">Banner admin</a>
-            </li>
-            <li class="nav-item">
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <button type="submit" class="nav-link btn btn-link text-light">Logout</button>
-                </form>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Register</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Login</a>
-            </li>
-        }
-    </ul>
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Hello @User.Identity.Name!
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage your account">Your account</a>
+                <div class="dropdown-divider"></div>
+                <h6 class="dropdown-header">Admin area</h6>
+                <a class="dropdown-item" asp-area="Admin" asp-controller="Home" asp-action="Index" title="Admin area index">Home</a>
+                <a class="dropdown-item" asp-area="Admin" asp-controller="BannerModels" asp-action="Index" title="Banner models">Banners</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-light">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>
