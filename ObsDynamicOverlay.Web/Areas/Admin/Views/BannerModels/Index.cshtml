@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ObsDynamicOverlay.DAL.Models.BannerModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="float-none">
+    <h1 class="float-left">
+        Index
+    </h1>
+    <a class="btn btn-primary float-right" asp-action="Create">Create New</a>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div class="float-none alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Subtitle)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.DateAdded)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subtitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateAdded)
+                    </td>
+                    <td>
+                        @if (item.Image?.LongLength > 0)
+                        {
+                            <img src="@Url.Action("Image", "Banner", new { area = string.Empty, id = item.Id }, "https")" alt="@item.Title" width="128" height="128" />
+                        }
+                        else
+                        {
+                            <text>No image was uploaded for this banner</text>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group" aria-labelledby="show-@item.Id">
+                            <a class="btn btn-primary" asp-action="Show" asp-route-id="@item.Id" id="show-@item.Id">Show via SignalR</a>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="others-@item.Id" href="#">Other actions</a>
+                                <div class="dropdown-menu" aria-labelledby="others-@item.Id">
+                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                    <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

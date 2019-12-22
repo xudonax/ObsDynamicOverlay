@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ObsDynamicOverlay.DAL.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,10 +8,12 @@ namespace ObsDynamicOverlay.DAL.Models
     public class BannerModel
     {
         /// <summary>
-        /// GUID for this entity
+        /// ID for this entity
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
-        public Guid Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         /// <summary>
         /// Title for this entity
@@ -37,8 +40,12 @@ namespace ObsDynamicOverlay.DAL.Models
         /// <summary>
         /// Image to be shown for this entity, maximum size is <see cref="Constants.MegaByte" />
         /// </summary>
-        [Required]
         [MaxLength(Constants.MegaByte)]
         public byte[] Image { get; set; }
+
+        /// <summary>
+        /// Filetype to be sent out to the browser for the image
+        /// </summary>
+        public FileTypes FileType { get; set; }
     }
 }
