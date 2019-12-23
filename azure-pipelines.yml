@@ -26,17 +26,17 @@ steps:
    command: 'restore'
 #   arguments: '--configuration $(buildConfiguration)'
    projects: 'ObsDynamicOverlay.sln'
+- task: Npm@1
+  displayName: 'Install NPM packages'
+  inputs:
+    command: 'install'
+    workingDir: 'ObsDynamicOverlay.Web'
 - task: DotNetCoreCLI@2
   displayName: 'Build .NET Core'
   inputs:
    command: 'build'
 #   arguments: '--configuration $(buildConfiguration)'
    projects: 'ObsDynamicOverlay.sln'
-- task: Npm@1
-  displayName: 'Install NPM packages'
-  inputs:
-    command: 'install'
-    workingDir: 'ObsDynamicOverlay.Web'
 - task: Npm@1
   displayName: 'Compile TypeScript'
   inputs:
